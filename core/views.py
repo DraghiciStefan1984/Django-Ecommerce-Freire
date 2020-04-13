@@ -15,7 +15,7 @@ def home(request):
 
 
 def checkout(request):
-    return render(request, 'checkout-page.html', {})
+    return render(request, 'checkout.html', {})
 
 
 def products(request):
