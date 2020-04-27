@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import Item, Order, OrderItem
 from django.views.generic import ListView, DetailView
+from django.utils import timezone
 
 
 # Create your views here.
@@ -30,3 +31,19 @@ class HomeView(ListView):
 class ItemDetailView(DetailView):
     model=Item
     template_name='product.html'
+
+
+def add_to_cart(request, slug):
+    item=get_object_or_404(Item, slug=slug)
+    order_item=OrderItem.objects.create(item=item)
+    order_queryset=Order.objects.filter(user=request.user, ordered=False)
+    if order_queryset.exists():
+        order=order_queryset[0]
+        if order.items.filter(item__slug=item.slug).exists():
+            order_item.quantity+=1
+            order_item.save()
+    else:
+        ordered_date=timezone.now()
+        order=Order.objects.create(user=request.user, ordered_date=ordered_date)
+        order.items.add(order_item)
+    return redirect('core:product', slug=slug)
