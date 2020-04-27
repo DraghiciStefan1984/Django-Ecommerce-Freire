@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
+    "python.pythonPath": "/Users/draghicistefan/opt/anaconda3/bin/python"
+=======
     "python.pythonPath": "D:\\Anaconda2019\\python.exe"
+>>>>>>> 2fe3af7f00d73710ff9de2bf2e23638f9f9e901c
 }
